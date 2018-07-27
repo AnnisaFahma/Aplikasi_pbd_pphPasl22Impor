@@ -14,7 +14,7 @@ app.get('/hey', function (req, res) {
 
 })
 app.get('/yuhu', function (req, res) {
-  res.render('index', { title: 'Form', message: 'sudah jadi' })
+  res.render('index')
 })
 
 app.get('/nih', function (req, res) {
