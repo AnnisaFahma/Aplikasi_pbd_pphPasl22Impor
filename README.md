@@ -89,3 +89,61 @@
   
            Database yang saya buat bernama "pph" 
            didalam database pph saya sudah membuat satu collection "tarif" dimana collection ini nanatinya akan digunakan untuk menyimpan tarif dari pph pasal 22 atas Impor gandum, kedelai dan tepung terigu
+
+## MASALAH DIAPLIKAISNYA
+    Masalahnya masih sama pak seperti yang kemarin, untuk langkah yang bapak sarankan untuk buat 2 file pug [file form, dan file hasil] di folder views itu saya  masih bingung dibagian handler'nya seperti apa yang digunakan untuk memproses dipas bagian file hasil.
+     
+INI PROGRAM server.js
+
+     const express = require('express')
+     const app = express()
+
+     app.set('views', './views')
+     app.set('view engine', 'pug')
+     app.use(express.static('public'))
+
+     app.get('/',  (req, res) => res.send('hello world'))
+  
+     app.get('/hey', function (req, res) {
+     res.render('index', { title: 'Template', message: 'Hello there!' })
+     })
+     
+     app.get('/yuhu', function (req, res) {
+     res.render('index')
+     })
+
+     app.get('/nih', function (req, res) {
+     res.render('form')
+     })
+     app.listen(3000, () => console.log('Example app listening on port 3000!'))
+  
+INI program form.pug
+
+      <HTML>
+      <BODY BGCOLOR="FFFCCC">
+      <form action = "http://localhost:3000/nih", method = "GET">
+
+      <CENTER><h1><I><FONT COLOR="MAROON"> Tax Calculation Apps.</FONT></I></h1></CENTER>
+      <CENTER><h3><I><FONT COLOR="BLACK"> PPh Pasal 22 untuk Impor Gandum, Kedelai, dan Tepung </FONT></I></h3></CENTER>
+      <BR>
+
+      Masukkan Nilai CIF : 
+      <INPUt type="text" id="nFirstEntry" name="nFirstEntry"> <BR>
+      <BR>
+      Nilai    Tarif Pajak : 
+      <INPUt type="text" id="nSecondEntry" name="nSecondEntry"> <BR>
+      <BR> 
+      Jumlah   Jumlah Pajak Terutang : 
+      <INPUt type="text" id="operation" name="operation" > <BR>
+      <BR>
+      <input type="submit" id="hasil" value="Hitung Pajak" onclick=" multCall()"><BR>
+
+      </form>
+      </BODY>
+      </HTML>
+      
+      
+
+
+
+
