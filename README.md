@@ -10,9 +10,9 @@
         * Sistem Operasi    : Windows 8
 	* Bahasa Pemograman : JavaScript
 	* Database Server   : MongoDB
-	* Web Server        : Apache
+	* Web Server        : Express js
 	* Text Script Editor: Visual Studio Code
-	* Web Browser       : Chrome'''
+	* Web Browser       : Chrome
 *5.Instalasi development Tools =* 	
 
         * Instalasi  OS : Saya tidak melakukkan instal sendiri karena OS yang saya gunakan sudah ada sejak saya beli PC yang saya gunakan sekarang
@@ -22,8 +22,7 @@
 *6.Lisensi =*
 
         * lisensi untuk MongoDB adalah (https://www.mongodb.com/community/licensing)
-	* lisensi untuk Apache  adalah (http://www.apache.org/licenses/)
-	* lisensi untuk Visual Studio Code adalah (https://code.visualstudio.com/License)'''
+	* lisensi untuk Visual Studio Code adalah (https://code.visualstudio.com/License)
 ## Perkembangan hari ini 
 1. Membuat Routing yang akan dilakukkan pada aplikasi, Adapun routingnya adalah sebagai berikut :
 
