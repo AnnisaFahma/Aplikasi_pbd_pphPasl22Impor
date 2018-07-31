@@ -1,23 +1,23 @@
-const express = require('express')
-const app = express()
+var express = require('express');
+var path = require('path');
+var bodyParser = require('body-parser');
+var mongodb = require('mongodb');
 
+var dbConn = mongodb.MongoClient.connect('mongodb://localhost/pembelian');
 
-app.set('views', './views')
-app.set('view engine', 'pug')
-app.use(express.static('public'))
+var app = express();
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.resolve(__dirname, 'public')));
 
-app.get('/',  (req, res) => res.send('hello world'))
-  
-app.get('/hey', function (req, res) {
-  res.render('index', { title: 'Template', message: 'Hello there!' })
+app.post('/post-feedback', function (req, res) {
+    dbConn.then(function(db) {
+        delete req.body._id; // for safety reasons
+        db.pembelian('feedback').insertOne(req.body);
+    });    
+    res.send('Data received:\n' + JSON.stringify(req.body));
+});
 
-})
-app.get('/yuhu', function (req, res) {
-  res.render('index')
-})
+app.use(express.static(path.resolve(__dirname, 'public')));
 
-app.get('/nih', function (req, res) {
-  res.render('form')
-})
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(process.env.PORT || 3000, process.env.IP || '0.0.0.0' );
