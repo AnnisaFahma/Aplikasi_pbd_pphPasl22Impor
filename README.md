@@ -90,7 +90,7 @@
            didalam database pph saya sudah membuat satu collection "tarif" dimana collection ini nanatinya akan digunakan untuk menyimpan tarif dari pph pasal 22 atas Impor gandum, kedelai dan tepung terigu
 
 ## MASALAH DIAPLIKAISNYA
-    Masalahnya masih sama pak seperti yang kemarin, untuk langkah yang bapak sarankan untuk buat 2 file pug [file form, dan file hasil] di folder views itu saya  masih bingung dibagian handler'nya seperti apa yang digunakan untuk memproses dipas bagian file hasil.
+#    Masalahnya masih sama pak seperti yang kemarin, untuk langkah yang bapak sarankan untuk buat 2 file pug [file form, dan file hasil] di folder views itu saya  masih bingung dibagian handler'nya seperti apa yang digunakan untuk memproses dipas bagian file hasil.
      
 INI PROGRAM server.js
 
@@ -102,10 +102,10 @@ INI PROGRAM server.js
      app.use(express.static('public'))
 
      app.get('/',  (req, res) => res.send('hello world'))
-  
-     app.get('/hey', function (req, res) {
+   
+      app.get('/hey', function (req, res) {
      res.render('index', { title: 'Template', message: 'Hello there!' })
-     })
+      })
      
      app.get('/yuhu', function (req, res) {
      res.render('index')
@@ -113,9 +113,9 @@ INI PROGRAM server.js
 
      app.get('/nih', function (req, res) {
      res.render('form')
-     })
+      })
      app.listen(3000, () => console.log('Example app listening on port 3000!'))
-  
+   
 INI program form.pug
 
       <HTML>
@@ -125,9 +125,9 @@ INI program form.pug
       <CENTER><h1><I><FONT COLOR="MAROON"> Tax Calculation Apps.</FONT></I></h1></CENTER>
       <CENTER><h3><I><FONT COLOR="BLACK"> PPh Pasal 22 untuk Impor Gandum, Kedelai, dan Tepung </FONT></I></h3></CENTER>
       <BR>
-
+	
       Masukkan Nilai CIF : 
-      <INPUt type="text" id="nFirstEntry" name="nFirstEntry"> <BR>
+       <INPUt type="text" id="nFirstEntry" name="nFirstEntry"> <BR>
       <BR>
       Nilai    Tarif Pajak : 
       <INPUt type="text" id="nSecondEntry" name="nSecondEntry"> <BR>
@@ -137,12 +137,67 @@ INI program form.pug
       <BR>
       <input type="submit" id="hasil" value="Hitung Pajak" onclick=" multCall()"><BR>
 
-      </form>
+       </form>
       </BODY>
       </HTML>
       
-      
+## PERUBAHAN APLIKASI
+APLIKASINYA MENJADI APLIKASI PENCATATAN PEMBELIAN TUNAI
+TERDAPAT 2 FILE YAITU server.js  & index.html
 
+INI PROGRAM server.js
+
+      var express = require('express');
+     var path = require('path');
+     var bodyParser = require('body-parser');
+     var mongodb = require('mongodb');
+
+     var dbConn = mongodb.MongoClient.connect('mongodb://localhost/pembelian');
+
+     var app = express();
+
+     app.use(bodyParser.urlencoded({ extended: false }));
+     app.use(express.static(path.resolve(__dirname, 'public')));
+
+    app.post('/post-feedback', function (req, res) {
+    dbConn.then(function(db) {
+        delete req.body._id; // for safety reasons
+        db.pembelian('feedback').insertOne(req.body);
+    });    
+    res.send('Data received:\n' + JSON.stringify(req.body));
+});
+
+     app.use(express.static(path.resolve(__dirname, 'public')));
+
+     app.listen(process.env.PORT || 3000, process.env.IP || '0.0.0.0' );
+     
+INI program index.html
+
+     <!doctype html>
+     <html lang="en">
+        <BODY BGCOLOR="FFFCCC">
+     <head>
+    <meta charset="UTF-8">
+    <title>Aplikasi Kece</title>
+    <CENTER><h1><I><FONT COLOR="MAROON"> Purchase Recording Apps.</FONT></I></h1></CENTER>
+    <CENTER><h3><I><FONT COLOR="BLACK"> Pencatatan Pembelian Pada Perusahaan Jasa </FONT></I></h3></CENTER>
+    <BR>
+    </head>
+    <body>
+    <h3>Isikan Data yang dibutuhkan dibawah ini :</h3>
+    <form method="POST" action="/post-feedback">
+        <label> Nama Akun : <input type="text" name="client-name" required></label> <BR>
+        <br>
+        <label> Debet : <input type="text" name="client-debet" required></label> <BR>
+        <br>
+        <label> Kredit : <input type="text" name="client-kredit" required></label> <BR>
+        <br>
+        <label> Keterangan : <br><textarea name="keterangan"></textarea></label> <BR>
+        <input type="submit" value="Submit">
+    </form>
+    
+       </body>
+     </html>
 
 
 
